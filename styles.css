@@ -1,0 +1,111 @@
+/* বডি স্টাইল */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #121212; /* ডার্ক ব্যাকগ্রাউন্ড */
+  color: #fff; /* হোয়াইট টেক্সট */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* হেডার */
+header {
+  text-align: center;
+  padding: 20px;
+  background-color: #1f1f1f; /* আরও ডার্ক শেড */
+  width: 100%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+header h1 {
+  font-size: 2rem;
+  color: #29bb89; /* উজ্জ্বল সবুজ টেক্সট */
+}
+
+header p {
+  font-size: 1.2rem;
+  color: #f5a623; /* উজ্জ্বল অরেঞ্জ টেক্সট */
+}
+
+/* মেইন টেবিল স্টাইল */
+main {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1e1e1e; /* টেবিলের ডার্ক ব্যাকগ্রাউন্ড */
+  border: 1px solid #333; /* টেবিলের বর্ডার */
+}
+
+thead {
+  background-color: #292929; /* টেবিলের হেডার ডার্ক শেড */
+}
+
+thead th {
+  font-size: 1.2rem;
+  color: #4caf50; /* উজ্জ্বল সবুজ */
+  padding: 10px;
+  text-align: center;
+  border-bottom: 2px solid #444;
+}
+
+tbody tr {
+  text-align: center;
+  border-bottom: 1px solid #333;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody td {
+  font-size: 1.1rem;
+  color: #e0e0e0; /* লাইট গ্রে টেক্সট */
+  padding: 10px;
+}
+
+/* অল্টারনেট রো স্টাইল */
+tbody tr:nth-child(odd) {
+  background-color: #252525;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #1b1b1b;
+}
+
+/* ফুটার */
+footer {
+  margin-top: auto;
+  padding: 10px;
+  background-color: #1f1f1f;
+  text-align: center;
+  width: 100%;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+        footer p {
+            margin: 5px 0;
+        }
+        footer a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+/* অন্যান্য ডিজাইন একই থাকবে। শুধু কাউন্টডাউনের জন্য নতুন স্টাইল যোগ করুন */
+
+#countdown {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #f5a623; /* উজ্জ্বল অরেঞ্জ রঙ */
+  text-align: center;
+  margin: 10px 0;
+}
+
