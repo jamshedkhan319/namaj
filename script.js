@@ -18,13 +18,11 @@ function showNotification(title, message) {
   }
 }
 
-// কাউন্টডাউন এবং নোটিফিকেশন
-function calculateCountdown(prayerTimes) {
+// কাউন্টডাউন আপডেট ফাংশন
+function updateCountdown(prayerTimes) {
   const now = new Date();
   for (const prayer of prayerTimes) {
     const [startHour, startMinute] = prayer.start.split(":").map(Number);
-    const [endHour, endMinute] = prayer.end.split(":").map(Number);
-
     const prayerStartTime = new Date(
       now.getFullYear(),
       now.getMonth(),
@@ -32,21 +30,14 @@ function calculateCountdown(prayerTimes) {
       startHour,
       startMinute
     );
-    const prayerEndTime = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      endHour,
-      endMinute
-    );
 
-    // যদি নামাজের সময় শুরু হতে বাকি থাকে
     if (prayerStartTime > now) {
       const diffInMs = prayerStartTime - now;
-      const minutes = Math.floor(diffInMs / 60000);
-      const seconds = Math.floor((diffInMs % 60000) / 1000);
+      const hours = Math.floor(diffInMs / (1000 * 60 * 60));
+      const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
 
-      countdownElement.textContent = `পরবর্তী নামাজ (${prayer.name}) শুরু হতে ${minutes} মিনিট ${seconds} সেকেন্ড বাকি।`;
+      countdownElement.textContent = `পরবর্তী নামাজ (${prayer.name}) শুরু হতে ${hours} ঘণ্টা ${minutes} মিনিট ${seconds} সেকেন্ড বাকি।`;
 
       // নামাজ শুরুর আগে নোটিফিকেশন
       setTimeout(() => {
@@ -56,15 +47,7 @@ function calculateCountdown(prayerTimes) {
         );
       }, diffInMs);
 
-      // নামাজ শেষ হওয়ার নোটিফিকেশন
-      setTimeout(() => {
-        showNotification(
-          `${prayer.name} শেষ হয়েছে`,
-          `${prayer.name} নামাজের সময় শেষ হয়েছে।`
-        );
-      }, diffInMs + (prayerEndTime - prayerStartTime));
-
-      setTimeout(() => calculateCountdown(prayerTimes), 1000); // প্রতি সেকেন্ডে আপডেট
+      setTimeout(() => updateCountdown(prayerTimes), 1000); // প্রতি সেকেন্ডে আপডেট
       return;
     }
   }
@@ -84,11 +67,11 @@ function fetchPrayerTimes(latitude, longitude) {
 
       // নামাজের সময় এবং শেষ সময় নির্ধারণ
       const prayerTimes = [
-        { name: "ফজর", start: timings.Fajr, end: timings.Dhuhr },
-        { name: "জোহর", start: timings.Dhuhr, end: timings.Asr },
-        { name: "আসর", start: timings.Asr, end: timings.Maghrib },
-        { name: "মাগরিব", start: timings.Maghrib, end: timings.Isha },
-        { name: "এশা", start: timings.Isha, end: "23:59" },
+        { name: "ফজর", start: timings.Fajr },
+        { name: "জোহর", start: timings.Dhuhr },
+        { name: "আসর", start: timings.Asr },
+        { name: "মাগরিব", start: timings.Maghrib },
+        { name: "এশা", start: timings.Isha }
       ];
 
       // লোকেশন দেখানো
@@ -102,17 +85,13 @@ function fetchPrayerTimes(latitude, longitude) {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${prayer.name}</td>
-          <td>${convertTo12HourFormat(prayer.start)} - ${
-          prayer.end !== "23:59"
-            ? convertTo12HourFormat(prayer.end)
-            : "রাত পর্যন্ত"
-        }</td>
+          <td>${convertTo12HourFormat(prayer.start)}</td>
         `;
         tableBody.appendChild(row);
       });
 
       // কাউন্টডাউন শুরু করা
-      calculateCountdown(prayerTimes);
+      updateCountdown(prayerTimes);
     })
     .catch((error) => {
       console.error("ডেটা লোড করতে সমস্যা হয়েছে:", error);
